@@ -1,0 +1,4 @@
+name: GloomGui
+version: '1.0'
+main: cn.gloomGui.GloomGui
+api-version: '1.21'
