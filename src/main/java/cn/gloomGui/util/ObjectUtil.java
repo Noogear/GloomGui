@@ -35,12 +35,12 @@ public class ObjectUtil {
         if (value instanceof List<?> list) {
             List<String> result = new ArrayList<>();
             for (Object element : list) {
-                result.add(element.toString());
+                result.add(toString(element));
             }
             return result;
         } else if (value instanceof String str) {
             return Collections.singletonList(str);
         }
-        return Collections.singletonList(value.toString());
+        return Collections.singletonList(toString(value));
     }
 }

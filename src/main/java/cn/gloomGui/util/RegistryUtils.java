@@ -5,7 +5,10 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RegistryUtils {
@@ -16,16 +19,14 @@ public class RegistryUtils {
     }
 
     public static <T extends Keyed> T fromString(Registry<@NotNull T> registry, String string) {
+        if (string == null) return null;
         NamespacedKey namespacedKey = toKey(string);
-        if (namespacedKey == null) {
-            return null;
-        }
-        return registry.get(namespacedKey);
+        return namespacedKey == null ? null : registry.get(namespacedKey);
     }
 
     public static <T extends Keyed> List<T> fromStringList(Registry<@NotNull T> registry, Collection<String> stringList) {
-        return stringList.stream().map(string -> RegistryUtils.fromString(registry, string)).toList();
+        return stringList.stream()
+                .map(s -> fromString(registry, s))
+                .toList();
     }
-
-
 }
