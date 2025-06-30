@@ -31,6 +31,13 @@ public class ObjectUtil {
         return Boolean.parseBoolean(value.toString());
     }
 
+    public static short toShort(Object value) {
+        if (value instanceof Number num) {
+            return num.shortValue();
+        }
+        return Short.parseShort(value.toString());
+    }
+
     public static List<String> toStringList(Object value) {
         if (value instanceof List<?> list) {
             List<String> result = new ArrayList<>();

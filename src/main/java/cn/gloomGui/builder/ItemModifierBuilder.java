@@ -1,6 +1,6 @@
 package cn.gloomGui.builder;
 
-import cn.gloomGui.item.modifier.ComponentHandler;
+import cn.gloomGui.item.modifier.ItemModifier;
 import cn.gloomGui.item.modifier.impl.*;
 import org.bukkit.inventory.ItemStack;
 
@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class ItemModifierBuilder {
-    private static final Map<String, ComponentHandler> HANDLER_REGISTRY = new HashMap<>();
+    private static final Map<String, ItemModifier> HANDLER_REGISTRY = new HashMap<>();
 
     private void registerDefaultHandlers() {
         register(new Amount(), "amount");
@@ -24,7 +24,7 @@ public class ItemModifierBuilder {
         register(new TooltipStyle(), "tooltip_style");
     }
 
-    public static void register(ComponentHandler handler, String... aliases) {
+    public static void register(ItemModifier handler, String... aliases) {
         for (String alias : aliases) {
             HANDLER_REGISTRY.put(alias.toLowerCase(Locale.ENGLISH), handler);
         }
@@ -36,12 +36,12 @@ public class ItemModifierBuilder {
             throw new IllegalArgumentException("Property cannot be null or empty");
 
         String key = property.toLowerCase(Locale.ENGLISH);
-        ComponentHandler handler = HANDLER_REGISTRY.get(key);
+        ItemModifier handler = HANDLER_REGISTRY.get(key);
 
         Optional.ofNullable(handler)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "不支持的道具属性: '" + property + "'. 可用属性: " + HANDLER_REGISTRY.keySet()
                 ))
-                .apply(stack, value);
+                .modify(stack, value);
     }
 }
