@@ -15,4 +15,6 @@ public class AdventureUtil {
     public static @NotNull List<Component> deserialize(@NotNull List<String> stringList) {
         return stringList.stream().map(AdventureUtil::deserialize).toList();
     }
+
+
 }

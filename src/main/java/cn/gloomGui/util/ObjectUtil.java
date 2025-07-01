@@ -17,6 +17,10 @@ public class ObjectUtil {
         return String.valueOf(value);
     }
 
+    public static String toString(Object value, String defaultValue) {
+        return value != null ? toString(value) : defaultValue;
+    }
+
     public static double toDouble(Object value) {
         if (value instanceof Number num) {
             return num.doubleValue();
@@ -50,4 +54,5 @@ public class ObjectUtil {
         }
         return Collections.singletonList(toString(value));
     }
+
 }
