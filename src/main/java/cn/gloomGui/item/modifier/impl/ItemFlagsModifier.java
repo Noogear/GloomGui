@@ -33,7 +33,7 @@ public class ItemFlagsModifier implements ItemMetaModifier {
 
     @Override
     public boolean loadFromObject(Object value) {
-        if(value == null) {
+        if (value == null) {
             return false;
         }
         List<String> flags = ObjectUtil.toStringList(value);

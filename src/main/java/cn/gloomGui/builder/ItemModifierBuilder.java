@@ -2,15 +2,19 @@ package cn.gloomGui.builder;
 
 import cn.gloomGui.item.modifier.ItemModifier;
 import cn.gloomGui.item.modifier.impl.*;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 public class ItemModifierBuilder {
-    private static final Map<String, ItemModifier> HANDLER_REGISTRY = new HashMap<>();
+    private static final Map<String, ItemModifier<?>> HANDLER_REGISTRY = new HashMap<>();
+
+    public static void register(ItemModifier<?> handler, String... aliases) {
+        for (String alias : aliases) {
+            HANDLER_REGISTRY.put(alias.toLowerCase(Locale.ENGLISH), handler);
+        }
+    }
 
     private void registerDefaultHandlers() {
         register(new AmountModifier(), "amount");
@@ -24,24 +28,4 @@ public class ItemModifierBuilder {
         register(new TooltipStyleModifier(), "tooltip_style");
     }
 
-    public static void register(ItemModifier handler, String... aliases) {
-        for (String alias : aliases) {
-            HANDLER_REGISTRY.put(alias.toLowerCase(Locale.ENGLISH), handler);
-        }
-    }
-
-    public static void modifyItem(ItemStack stack, String property, Object value) {
-        if (stack == null) throw new IllegalArgumentException("ItemStack cannot be null");
-        if (property == null || property.trim().isEmpty())
-            throw new IllegalArgumentException("Property cannot be null or empty");
-
-        String key = property.toLowerCase(Locale.ENGLISH);
-        ItemModifier handler = HANDLER_REGISTRY.get(key);
-
-        Optional.ofNullable(handler)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "不支持的道具属性: '" + property + "'. 可用属性: " + HANDLER_REGISTRY.keySet()
-                ))
-                .modify(stack, value);
-    }
 }

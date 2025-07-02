@@ -17,7 +17,8 @@ public class ComponentStaticReplacer implements ReplacerHandler<Component> {
     }
 
     @Override
-    public Component get(OfflinePlayer player){
+    public Component get(OfflinePlayer player) {
         return component;
-    };
+    }
+
 }

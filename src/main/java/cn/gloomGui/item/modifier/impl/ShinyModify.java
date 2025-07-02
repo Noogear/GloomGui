@@ -16,10 +16,9 @@ public class ShinyModify implements ItemMetaModifier {
 
     @Override
     public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @Nullable OfflinePlayer player) {
-        if (shiny == null) {
-            return meta;
+        if (shiny != null) {
+            meta.setEnchantmentGlintOverride(shiny.get(player));
         }
-        meta.setEnchantmentGlintOverride(shiny.get(player));
         return meta;
     }
 

@@ -15,10 +15,9 @@ public class AmountModifier implements ItemModifier<ItemStack> {
 
     @Override
     public @NotNull ItemStack modify(ItemStack original, OfflinePlayer player) {
-        if (amount == null) {
-            return original;
+        if (amount != null) {
+            original.setAmount(amount.get(player));
         }
-        original.setAmount(amount.get(player));
         return original;
     }
 

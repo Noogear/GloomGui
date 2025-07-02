@@ -19,7 +19,10 @@ public class TooltipStyleModifier implements ItemMetaModifier {
     @Override
     public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @Nullable OfflinePlayer player) {
         if (tooltipStyle != null) {
-            meta.setTooltipStyle(tooltipStyle.get(player));
+            NamespacedKey style = tooltipStyle.get(player);
+            if (style != null) {
+                meta.setTooltipStyle(tooltipStyle.get(player));
+            }
         }
         return meta;
     }

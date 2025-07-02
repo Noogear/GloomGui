@@ -1,7 +1,6 @@
 package cn.gloomGui.util;
 
 import org.bukkit.Keyed;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.jetbrains.annotations.NotNull;

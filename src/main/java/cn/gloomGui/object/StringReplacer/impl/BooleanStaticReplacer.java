@@ -1,7 +1,6 @@
 package cn.gloomGui.object.StringReplacer.impl;
 
 import cn.gloomGui.object.StringReplacer.BooleanReplacer;
-import cn.gloomGui.object.StringReplacer.ReplacerHandler;
 import org.bukkit.OfflinePlayer;
 
 public class BooleanStaticReplacer implements BooleanReplacer {

@@ -4,7 +4,6 @@ import cn.gloomGui.item.modifier.ItemMetaModifier;
 import cn.gloomGui.object.StringReplacer.ReplacerHandler;
 import cn.gloomGui.object.StringReplacer.impl.ComponentDynamicReplacer;
 import cn.gloomGui.object.StringReplacer.impl.ComponentStaticReplacer;
-import cn.gloomGui.util.AdventureUtil;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.ReplacerUtil;
 import net.kyori.adventure.text.Component;
@@ -18,7 +17,9 @@ public class DisplayNameModifier implements ItemMetaModifier {
 
     @Override
     public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @Nullable OfflinePlayer player) {
-        meta.displayName(name.get(player));
+        if (name != null) {
+            meta.displayName(name.get(player));
+        }
         return meta;
     }
 

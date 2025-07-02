@@ -13,11 +13,11 @@ public class ReplacerUtil {
         return REPLACE_PATTERN.matcher(string).find();
     }
 
-    public static String apply(String string, Player player){
+    public static String apply(String string, Player player) {
         return PlaceholderAPI.setPlaceholders(player, string);
     }
 
-    public static String apply(String string, OfflinePlayer player){
+    public static String apply(String string, OfflinePlayer player) {
         return PlaceholderAPI.setPlaceholders(player, string);
     }
 

@@ -2,7 +2,6 @@ package cn.gloomGui.item.modifier.impl;
 
 import cn.gloomGui.item.modifier.ItemMetaModifier;
 import cn.gloomGui.object.StringReplacer.IntReplacer;
-import cn.gloomGui.object.StringReplacer.ReplacerHandler;
 import cn.gloomGui.object.StringReplacer.impl.IntDynamicReplacer;
 import cn.gloomGui.object.StringReplacer.impl.IntStaticReplacer;
 import cn.gloomGui.util.ObjectUtil;
@@ -17,10 +16,9 @@ public class CustomModelDataModifier implements ItemMetaModifier {
 
     @Override
     public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @Nullable OfflinePlayer player) {
-        if (customModelData == null) {
-            return meta;
+        if (customModelData != null) {
+            meta.setCustomModelData(customModelData.get(player));
         }
-        meta.setCustomModelData(customModelData.get(player));
         return meta;
     }
 

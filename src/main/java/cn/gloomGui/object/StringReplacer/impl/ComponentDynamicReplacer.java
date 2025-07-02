@@ -9,12 +9,12 @@ import org.bukkit.OfflinePlayer;
 public class ComponentDynamicReplacer implements ReplacerHandler<Component> {
     private final String string;
 
-    public ComponentDynamicReplacer(String string){
+    public ComponentDynamicReplacer(String string) {
         this.string = string;
     }
 
     @Override
     public Component get(OfflinePlayer player) {
-        return AdventureUtil.deserialize(ReplacerUtil.apply(string, player)) ;
+        return AdventureUtil.deserialize(ReplacerUtil.apply(string, player));
     }
 }

@@ -2,8 +2,8 @@ package cn.gloomGui.item.modifier.impl;
 
 import cn.gloomGui.item.modifier.ItemMetaModifier;
 import cn.gloomGui.object.StringReplacer.ReplacerHandler;
-import cn.gloomGui.object.StringReplacer.impl.ComponentStaticReplacer;
 import cn.gloomGui.object.StringReplacer.impl.ComponentDynamicReplacer;
+import cn.gloomGui.object.StringReplacer.impl.ComponentStaticReplacer;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.ReplacerUtil;
 import net.kyori.adventure.text.Component;
@@ -20,10 +20,9 @@ public class LoreModifier implements ItemMetaModifier {
 
     @Override
     public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @Nullable OfflinePlayer player) {
-        if (processedLore == null) {
-            return meta;
+        if (processedLore != null && !processedLore.isEmpty()) {
+            meta.lore(processedLore.stream().map(loreEntry -> loreEntry.get(player)).toList());
         }
-        meta.lore(processedLore.stream().map(loreEntry -> loreEntry.get(player)).toList());
         return meta;
     }
 

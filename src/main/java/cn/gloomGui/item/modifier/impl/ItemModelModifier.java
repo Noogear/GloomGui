@@ -18,10 +18,9 @@ public class ItemModelModifier implements ItemMetaModifier {
 
     @Override
     public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @Nullable OfflinePlayer player) {
-        if (itemModel == null) {
-            return meta;
+        if (itemModel != null) {
+            meta.setItemModel(itemModel.get(player));
         }
-        meta.setItemModel(itemModel.get(player));
         return meta;
     }
 

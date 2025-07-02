@@ -6,7 +6,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface ItemMetaModifier extends ItemModifier<ItemStack>{
+public interface ItemMetaModifier extends ItemModifier<ItemStack> {
 
     @NotNull
     ItemMeta modifyMeta(@NotNull ItemMeta meta, @Nullable OfflinePlayer player);
