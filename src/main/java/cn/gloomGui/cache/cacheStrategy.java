@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
-public interface cacheStrategy<K, V> {
+public interface CacheStrategy<K, V> {
 
     void init();
 
@@ -17,6 +17,8 @@ public interface cacheStrategy<K, V> {
     V computeIfAbsent(K key, Function<K, V> loader);
 
     void put(K key, V value);
+
+    boolean update();
 
     void remove(K key);
 

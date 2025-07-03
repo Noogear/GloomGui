@@ -1,12 +1,26 @@
 package cn.gloomGui.cache;
 
-import java.util.Collections;
-import java.util.Set;
-import java.util.WeakHashMap;
-import java.util.function.Function;
+import cn.gloomGui.util.ReplacerUtil;
+import org.bukkit.OfflinePlayer;
 
-public class replacerTemporaryCache implements cacheStrategy<String, String> {
+import java.util.*;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+public class ReplacerTemporaryCache implements CacheStrategy<String, String> {
+    private final Supplier<Map<String, String>> supplier;
     private WeakHashMap<String, String> cache;
+
+    public ReplacerTemporaryCache(Set<String> replacerString, OfflinePlayer player) {
+        init();
+        supplier = () -> {
+            Map<String, String> map = new HashMap<>();
+            for (String string : replacerString) {
+                map.put(string, ReplacerUtil.apply(string, player));
+            }
+            return map;
+        };
+    }
 
     @Override
     public void init() {
@@ -38,6 +52,15 @@ public class replacerTemporaryCache implements cacheStrategy<String, String> {
     @Override
     public void put(String key, String value) {
         cache.put(key, value);
+    }
+
+    @Override
+    public boolean update() {
+        if (supplier == null) {
+            return false;
+        }
+        cache.putAll(supplier.get());
+        return true;
     }
 
     @Override
