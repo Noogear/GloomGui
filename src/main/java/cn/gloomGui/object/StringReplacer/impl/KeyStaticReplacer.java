@@ -1,10 +1,10 @@
-package cn.gloomGui.object.StringReplacer.impl;
+package cn.gloomGui.object.stringReplacer.impl;
 
-import cn.gloomGui.object.StringReplacer.ReplacerHandler;
+import cn.gloomGui.object.stringReplacer.ReplacerStrategy;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 
-public class KeyStaticReplacer implements ReplacerHandler<NamespacedKey> {
+public class KeyStaticReplacer implements ReplacerStrategy<NamespacedKey> {
     private final NamespacedKey staticValue;
 
     public KeyStaticReplacer(NamespacedKey staticValue) {

@@ -1,6 +1,6 @@
-package cn.gloomGui.object.StringReplacer.impl;
+package cn.gloomGui.object.stringReplacer.impl;
 
-import cn.gloomGui.object.StringReplacer.BooleanReplacer;
+import cn.gloomGui.object.stringReplacer.BooleanReplacer;
 import cn.gloomGui.util.ReplacerUtil;
 import org.bukkit.OfflinePlayer;
 

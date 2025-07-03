@@ -1,6 +1,6 @@
-package cn.gloomGui.object.StringReplacer.impl;
+package cn.gloomGui.object.stringReplacer.impl;
 
-import cn.gloomGui.object.StringReplacer.IntReplacer;
+import cn.gloomGui.object.stringReplacer.IntReplacer;
 import org.bukkit.OfflinePlayer;
 
 public class IntStaticReplacer implements IntReplacer {

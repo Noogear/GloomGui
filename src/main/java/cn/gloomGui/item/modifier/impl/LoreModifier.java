@@ -1,9 +1,9 @@
 package cn.gloomGui.item.modifier.impl;
 
 import cn.gloomGui.item.modifier.ItemMetaModifier;
-import cn.gloomGui.object.StringReplacer.ReplacerHandler;
-import cn.gloomGui.object.StringReplacer.impl.ComponentDynamicReplacer;
-import cn.gloomGui.object.StringReplacer.impl.ComponentStaticReplacer;
+import cn.gloomGui.object.stringReplacer.ReplacerStrategy;
+import cn.gloomGui.object.stringReplacer.impl.ComponentDynamicReplacer;
+import cn.gloomGui.object.stringReplacer.impl.ComponentStaticReplacer;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.ReplacerUtil;
 import net.kyori.adventure.text.Component;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoreModifier implements ItemMetaModifier {
-    private List<ReplacerHandler<Component>> processedLore;
+    private List<ReplacerStrategy<Component>> processedLore;
 
     @Override
     public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @Nullable OfflinePlayer player) {
@@ -35,7 +35,7 @@ public class LoreModifier implements ItemMetaModifier {
         if (stringList.isEmpty()) {
             return false;
         }
-        List<ReplacerHandler<Component>> loreEntries = new ArrayList<>();
+        List<ReplacerStrategy<Component>> loreEntries = new ArrayList<>();
         for (String string : stringList) {
             if (string == null || string.isEmpty()) {
                 loreEntries.add(new ComponentStaticReplacer(Component.empty()));

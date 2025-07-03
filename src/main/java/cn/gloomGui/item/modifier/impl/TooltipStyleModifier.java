@@ -1,9 +1,9 @@
 package cn.gloomGui.item.modifier.impl;
 
 import cn.gloomGui.item.modifier.ItemMetaModifier;
-import cn.gloomGui.object.StringReplacer.ReplacerHandler;
-import cn.gloomGui.object.StringReplacer.impl.KeyDynamicReplacer;
-import cn.gloomGui.object.StringReplacer.impl.KeyStaticReplacer;
+import cn.gloomGui.object.stringReplacer.ReplacerStrategy;
+import cn.gloomGui.object.stringReplacer.impl.KeyDynamicReplacer;
+import cn.gloomGui.object.stringReplacer.impl.KeyStaticReplacer;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.RegistryUtils;
 import cn.gloomGui.util.ReplacerUtil;
@@ -14,14 +14,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class TooltipStyleModifier implements ItemMetaModifier {
-    private ReplacerHandler<NamespacedKey> tooltipStyle;
+    private ReplacerStrategy<NamespacedKey> tooltipStyle;
 
     @Override
     public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @Nullable OfflinePlayer player) {
         if (tooltipStyle != null) {
             NamespacedKey style = tooltipStyle.get(player);
             if (style != null) {
-                meta.setTooltipStyle(tooltipStyle.get(player));
+                meta.setTooltipStyle(style);
             }
         }
         return meta;

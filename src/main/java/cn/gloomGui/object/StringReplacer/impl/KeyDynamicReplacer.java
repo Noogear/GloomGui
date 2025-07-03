@@ -1,12 +1,12 @@
-package cn.gloomGui.object.StringReplacer.impl;
+package cn.gloomGui.object.stringReplacer.impl;
 
-import cn.gloomGui.object.StringReplacer.ReplacerHandler;
+import cn.gloomGui.object.stringReplacer.ReplacerStrategy;
 import cn.gloomGui.util.RegistryUtils;
 import cn.gloomGui.util.ReplacerUtil;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 
-public class KeyDynamicReplacer implements ReplacerHandler<NamespacedKey> {
+public class KeyDynamicReplacer implements ReplacerStrategy<NamespacedKey> {
     private final String dynamicValue;
 
     public KeyDynamicReplacer(String dynamicValue) {

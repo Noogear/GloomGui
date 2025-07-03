@@ -1,11 +1,11 @@
-package cn.gloomGui.object.StringReplacer.impl;
+package cn.gloomGui.object.stringReplacer.impl;
 
-import cn.gloomGui.object.StringReplacer.ReplacerHandler;
+import cn.gloomGui.object.stringReplacer.ReplacerStrategy;
 import cn.gloomGui.util.AdventureUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 
-public class ComponentStaticReplacer implements ReplacerHandler<Component> {
+public class ComponentStaticReplacer implements ReplacerStrategy<Component> {
     private final Component component;
 
     public ComponentStaticReplacer(String string) {

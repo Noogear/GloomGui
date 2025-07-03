@@ -1,9 +1,9 @@
 package cn.gloomGui.item.modifier.impl;
 
 import cn.gloomGui.item.modifier.ItemModifier;
-import cn.gloomGui.object.StringReplacer.MaterialReplacer;
-import cn.gloomGui.object.StringReplacer.impl.MaterialDynamicReplacer;
-import cn.gloomGui.object.StringReplacer.impl.MaterialStaticReplacer;
+import cn.gloomGui.object.stringReplacer.MaterialReplacer;
+import cn.gloomGui.object.stringReplacer.impl.MaterialDynamicReplacer;
+import cn.gloomGui.object.stringReplacer.impl.MaterialStaticReplacer;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.ReplacerUtil;
 import org.bukkit.OfflinePlayer;

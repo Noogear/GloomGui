@@ -1,9 +1,9 @@
 package cn.gloomGui.item.modifier.impl;
 
 import cn.gloomGui.item.modifier.ItemMetaModifier;
-import cn.gloomGui.object.StringReplacer.ReplacerHandler;
-import cn.gloomGui.object.StringReplacer.impl.ComponentDynamicReplacer;
-import cn.gloomGui.object.StringReplacer.impl.ComponentStaticReplacer;
+import cn.gloomGui.object.stringReplacer.ReplacerStrategy;
+import cn.gloomGui.object.stringReplacer.impl.ComponentDynamicReplacer;
+import cn.gloomGui.object.stringReplacer.impl.ComponentStaticReplacer;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.ReplacerUtil;
 import net.kyori.adventure.text.Component;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class DisplayNameModifier implements ItemMetaModifier {
-    private ReplacerHandler<Component> name;
+    private ReplacerStrategy<Component> name;
 
     @Override
     public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @Nullable OfflinePlayer player) {
