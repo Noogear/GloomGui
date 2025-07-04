@@ -21,9 +21,9 @@ public class ProfileModifier implements ItemMetaModifier {
         if (profile != null && meta instanceof SkullMeta skullMeta) {
             PlayerProfile playerProfile;
             if (usePlaceholder) {
-                playerProfile = SkullTextureUtil.getPlayerProfile(PlaceholderAPI.setPlaceholders(player, profile));
+                playerProfile = SkullTextureUtil.getProfileByString(PlaceholderAPI.setPlaceholders(player, profile));
             } else {
-                playerProfile = SkullTextureUtil.getPlayerProfile(profile);
+                playerProfile = SkullTextureUtil.getProfileByString(profile);
             }
             if (playerProfile == null) {
                 return meta;

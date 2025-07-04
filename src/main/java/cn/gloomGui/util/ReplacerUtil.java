@@ -6,8 +6,11 @@ import org.bukkit.entity.Player;
 
 import java.util.regex.Pattern;
 
-public class ReplacerUtil {
+public final class ReplacerUtil {
     private static final Pattern REPLACE_PATTERN = Pattern.compile("%[^%]+?%");
+
+    private ReplacerUtil() {
+    }
 
     public static boolean contains(String string) {
         return REPLACE_PATTERN.matcher(string).find();

@@ -6,7 +6,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class AdventureUtil {
+public final class AdventureUtil {
+    private AdventureUtil() {
+    }
 
     public static @NotNull Component deserialize(@NotNull String string) {
         return MiniMessage.miniMessage().deserialize(string);
