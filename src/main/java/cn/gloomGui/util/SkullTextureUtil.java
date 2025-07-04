@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -26,13 +27,19 @@ public class SkullTextureUtil {
 
     protected static final Cache<String, PlayerProfile> CACHE = CacheBuilder.newBuilder().expireAfterAccess(3, TimeUnit.HOURS).build();
     protected static final Executor EXECUTOR = CompletableFuture.completedFuture(null).defaultExecutor();
-
     private static final String TEXTURE_URL = "http://textures.minecraft.net/texture/";
     private static final UUID EMPTY_ID = new UUID(0, 0);
     private static final PlayerProfile EMPTY = Bukkit.createProfile(EMPTY_ID, "null");
     private static final Gson GSON = new Gson();
 
-    public static PlayerProfile getProfileByString(String value) {
+    private SkullTextureUtil() {
+    }
+
+    @NotNull
+    public static PlayerProfile getProfileByString(@Nullable String value) {
+        if (value == null || value.isEmpty()) {
+            return EMPTY;
+        }
         return caching(value, () -> {
             int length = value.length();
             if (length < 32) {
@@ -63,6 +70,7 @@ public class SkullTextureUtil {
         return profile.equals(EMPTY);
     }
 
+    @NotNull
     private static PlayerProfile profileFromBase64(String value) {
         String decoded = new String(Base64.getDecoder().decode(value), StandardCharsets.UTF_8);
         JsonObject json = GSON.fromJson(decoded, JsonObject.class);
@@ -70,6 +78,7 @@ public class SkullTextureUtil {
         return profileFromUrl(url);
     }
 
+    @NotNull
     private static PlayerProfile profileFromUrl(String value) {
         try {
             URL url = URI.create(value).toURL();
@@ -81,6 +90,7 @@ public class SkullTextureUtil {
         }
     }
 
+    @NotNull
     private static PlayerProfile profileFromUUID(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
         if (player != null) {
@@ -90,6 +100,7 @@ public class SkullTextureUtil {
         }
     }
 
+    @NotNull
     private static PlayerProfile profileFromName(String value) {
         Player player = Bukkit.getPlayer(value);
         if (player != null) {
@@ -99,7 +110,7 @@ public class SkullTextureUtil {
         }
     }
 
-    public static ItemStack setProfile(@NotNull ItemStack stack, PlayerProfile profile) {
+    public static ItemStack setProfile(@NotNull ItemStack stack, @Nullable PlayerProfile profile) {
         if (stack.getItemMeta() instanceof SkullMeta skullMeta) {
             skullMeta.setPlayerProfile(profile);
             stack.setItemMeta(skullMeta);

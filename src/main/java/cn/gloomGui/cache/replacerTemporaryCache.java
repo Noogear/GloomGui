@@ -10,9 +10,11 @@ import java.util.function.Supplier;
 public class ReplacerTemporaryCache implements CacheStrategy<String, String> {
     private final Supplier<Map<String, String>> supplier;
     private WeakHashMap<String, String> cache;
+    private final OfflinePlayer offlinePlayer;
 
     public ReplacerTemporaryCache(Set<String> replacerString, OfflinePlayer player) {
         init();
+        offlinePlayer = player;
         supplier = () -> {
             Map<String, String> map = new HashMap<>();
             for (String string : replacerString) {
@@ -46,7 +48,7 @@ public class ReplacerTemporaryCache implements CacheStrategy<String, String> {
 
     @Override
     public String computeIfAbsent(String key, Function<String, String> loader) {
-        return cache.computeIfAbsent(key, loader);
+        return cache.computeIfAbsent(key, (k) -> ReplacerUtil.apply(k, offlinePlayer));
     }
 
     @Override
