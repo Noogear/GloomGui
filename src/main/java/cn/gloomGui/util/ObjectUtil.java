@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ObjectUtil {
+public final class ObjectUtil {
+    private ObjectUtil() {
+    }
 
     public static int toInt(Object value) {
         if (value instanceof Number num) {

@@ -11,8 +11,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RegistryUtils {
+public final class RegistryUtils {
     private static final ConcurrentHashMap<String, NamespacedKey> KEY_CACHE = new ConcurrentHashMap<>();
+
+    private RegistryUtils() {
+    }
 
     public static @Nullable NamespacedKey toKey(String value) {
         if (value == null) {
