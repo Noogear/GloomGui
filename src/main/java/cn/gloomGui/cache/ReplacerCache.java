@@ -4,15 +4,14 @@ import cn.gloomGui.util.ReplacerUtil;
 import org.bukkit.OfflinePlayer;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class ReplacerTemporaryCache implements CacheStrategy<String, String> {
+public class ReplacerCache implements CacheStrategy<String, String> {
     private final Supplier<Map<String, String>> supplier;
-    private WeakHashMap<String, String> cache;
     private final OfflinePlayer offlinePlayer;
+    private WeakHashMap<String, String> cache;
 
-    public ReplacerTemporaryCache(Set<String> replacerString, OfflinePlayer player) {
+    public ReplacerCache(Set<String> replacerString, OfflinePlayer player) {
         init();
         offlinePlayer = player;
         supplier = () -> {
@@ -38,18 +37,14 @@ public class ReplacerTemporaryCache implements CacheStrategy<String, String> {
 
     @Override
     public String get(String key) {
-        return cache.get(key);
-    }
-
-    @Override
-    public String getOrDefault(String key, String defaultValue) {
-        return cache.getOrDefault(key, defaultValue);
-    }
-
-    @Override
-    public String computeIfAbsent(String key, Function<String, String> loader) {
         return cache.computeIfAbsent(key, (k) -> ReplacerUtil.apply(k, offlinePlayer));
     }
+
+    @Override
+    public String getAndUpdate(String key) {
+        return "";
+    }
+
 
     @Override
     public void put(String key, String value) {
@@ -57,13 +52,11 @@ public class ReplacerTemporaryCache implements CacheStrategy<String, String> {
     }
 
     @Override
-    public boolean update() {
-        if (supplier == null) {
-            return false;
-        }
+    public ReplacerCache update() {
         cache.putAll(supplier.get());
-        return true;
+        return this;
     }
+
 
     @Override
     public void remove(String key) {

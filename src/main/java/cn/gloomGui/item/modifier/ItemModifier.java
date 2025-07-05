@@ -1,13 +1,14 @@
 package cn.gloomGui.item.modifier;
 
-import org.bukkit.OfflinePlayer;
+import cn.gloomGui.cache.ReplacerCache;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public interface ItemModifier<T> {
 
-    @NotNull T modify(T original, OfflinePlayer player);
+    @NotNull T modify(T original, ReplacerCache replacerCache);
 
-    boolean loadFromObject(Object value);
+    boolean loadFromObject(ItemStack original, Object value);
 
 
 }

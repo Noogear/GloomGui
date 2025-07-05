@@ -1,37 +1,57 @@
 package cn.gloomGui.item.modifier.impl;
 
+import cn.gloomGui.cache.ReplacerCache;
 import cn.gloomGui.item.modifier.ItemModifier;
-import cn.gloomGui.object.stringReplacer.MaterialReplacer;
-import cn.gloomGui.object.stringReplacer.impl.MaterialDynamicReplacer;
-import cn.gloomGui.object.stringReplacer.impl.MaterialStaticReplacer;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.ReplacerUtil;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class MaterialModifier implements ItemModifier<ItemStack> {
-    private MaterialReplacer materialReplacer;
+    private String material;
 
-    @Override
-    public @NotNull ItemStack modify(ItemStack original, OfflinePlayer player) {
-        if (materialReplacer != null) {
-            return materialReplacer.modify(original, player);
+    private static ItemStack setMaterial(ItemStack itemStack, String materialString) {
+        String[] split = materialString.split(":", 2);
+        Material material = getMaterial(split[0].trim());
+        if (material != null) {
+            itemStack.setType(material);
+            if (split.length > 1) {
+                itemStack.setDurability(Short.parseShort(split[1].trim()));
+            }
+            return itemStack;
         }
-        return original;
+        return itemStack;
+    }
+
+    private static Material getMaterial(String materialString) {
+        materialString = materialString.replace(" ", "_");
+        Material material;
+        try {
+            material = Material.matchMaterial(materialString);
+        } catch (Exception ignored) {
+            material = Material.AIR;
+        }
+        return material;
     }
 
     @Override
-    public boolean loadFromObject(Object value) {
+    public @NotNull ItemStack modify(ItemStack original, ReplacerCache replacerCache) {
+        return setMaterial(original, replacerCache.get(material));
+    }
+
+    @Override
+    public boolean loadFromObject(ItemStack original, Object value) {
         if (value == null) {
             return false;
         }
         String string = ObjectUtil.toString(value);
         if (ReplacerUtil.contains(string)) {
-            this.materialReplacer = new MaterialDynamicReplacer(string);
+            this.material = string;
+            return true;
         } else {
-            this.materialReplacer = new MaterialStaticReplacer(string);
+            setMaterial(original, string);
+            return false;
         }
-        return true;
     }
 }

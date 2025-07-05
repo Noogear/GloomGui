@@ -1,47 +1,45 @@
 package cn.gloomGui.item.modifier.impl;
 
+import cn.gloomGui.cache.ReplacerCache;
 import cn.gloomGui.item.modifier.ItemMetaModifier;
-import cn.gloomGui.object.stringReplacer.ReplacerStrategy;
-import cn.gloomGui.object.stringReplacer.impl.KeyDynamicReplacer;
-import cn.gloomGui.object.stringReplacer.impl.KeyStaticReplacer;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.RegistryUtils;
 import cn.gloomGui.util.ReplacerUtil;
 import org.bukkit.NamespacedKey;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class TooltipStyleModifier implements ItemMetaModifier {
-    private ReplacerStrategy<NamespacedKey> tooltipStyle;
+    private String tooltipStyle;
 
     @Override
-    public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @Nullable OfflinePlayer player) {
-        if (tooltipStyle != null) {
-            NamespacedKey style = tooltipStyle.get(player);
-            if (style != null) {
-                meta.setTooltipStyle(style);
-            }
+    public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @NotNull ReplacerCache replacerCache) {
+        NamespacedKey style = RegistryUtils.toKey(replacerCache.get(tooltipStyle));
+        if (style != null) {
+            meta.setTooltipStyle(style);
         }
-        return meta;
+        return null;
     }
 
     @Override
-    public boolean loadFromObject(Object value) {
+    public boolean loadFromObject(ItemStack original, Object value) {
         if (value == null) {
             return false;
         }
         String string = ObjectUtil.toString(value);
         if (ReplacerUtil.contains(string)) {
-            this.tooltipStyle = new KeyDynamicReplacer(string);
+            this.tooltipStyle = string;
+            return true;
         } else {
             NamespacedKey key = RegistryUtils.toKey(string);
             if (key == null) {
                 return false;
             }
-            this.tooltipStyle = new KeyStaticReplacer(key);
+            original.editMeta(meta -> {
+                meta.setTooltipStyle(key);
+            });
+            return false;
         }
-        return true;
     }
 }

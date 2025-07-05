@@ -1,8 +1,9 @@
 package cn.gloomGui.object.stringReplacer;
 
-import org.bukkit.OfflinePlayer;
+import cn.gloomGui.cache.ReplacerCache;
 
 @FunctionalInterface
 public interface ReplacerStrategy<T> {
-    T get(OfflinePlayer player);
+
+    T get(ReplacerCache replacerCache);
 }

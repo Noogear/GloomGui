@@ -1,38 +1,36 @@
 package cn.gloomGui.item.modifier.impl;
 
+import cn.gloomGui.cache.ReplacerCache;
 import cn.gloomGui.item.modifier.ItemMetaModifier;
-import cn.gloomGui.object.stringReplacer.BooleanReplacer;
-import cn.gloomGui.object.stringReplacer.impl.BooleanDynamicReplacer;
-import cn.gloomGui.object.stringReplacer.impl.BooleanStaticReplacer;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.ReplacerUtil;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class ShinyModify implements ItemMetaModifier {
-    private BooleanReplacer shiny;
+    private String shiny;
 
     @Override
-    public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @Nullable OfflinePlayer player) {
-        if (shiny != null) {
-            meta.setEnchantmentGlintOverride(shiny.get(player));
-        }
+    public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @NotNull ReplacerCache replacerCache) {
+        meta.setEnchantmentGlintOverride(Boolean.parseBoolean(replacerCache.get(shiny)));
         return meta;
     }
 
     @Override
-    public boolean loadFromObject(Object value) {
+    public boolean loadFromObject(ItemStack original, Object value) {
         if (value == null) {
             return false;
         }
         String string = ObjectUtil.toString(value);
         if (ReplacerUtil.contains(string)) {
-            this.shiny = new BooleanDynamicReplacer(string);
+            this.shiny = string;
+            return true;
         } else {
-            this.shiny = new BooleanStaticReplacer(ObjectUtil.toBoolean(value));
+            original.editMeta(meta -> {
+                meta.setEnchantmentGlintOverride(Boolean.parseBoolean(string));
+            });
+            return false;
         }
-        return true;
     }
 }

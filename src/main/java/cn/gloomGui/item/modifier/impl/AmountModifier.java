@@ -1,41 +1,37 @@
 package cn.gloomGui.item.modifier.impl;
 
+import cn.gloomGui.cache.ReplacerCache;
 import cn.gloomGui.item.modifier.ItemModifier;
-import cn.gloomGui.object.stringReplacer.IntReplacer;
-import cn.gloomGui.object.stringReplacer.impl.IntDynamicReplacer;
-import cn.gloomGui.object.stringReplacer.impl.IntStaticReplacer;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.ReplacerUtil;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class AmountModifier implements ItemModifier<ItemStack> {
-    private IntReplacer amount;
+    private String amount;
 
     @Override
-    public @NotNull ItemStack modify(ItemStack original, OfflinePlayer player) {
-        if (amount != null) {
-            original.setAmount(amount.get(player));
-        }
+    public @NotNull ItemStack modify(ItemStack original, ReplacerCache replacerCache) {
+        original.setAmount(Integer.parseInt(replacerCache.get(amount)));
         return original;
     }
 
     @Override
-    public boolean loadFromObject(Object value) {
+    public boolean loadFromObject(ItemStack original, Object value) {
         if (value == null) {
             return false;
         }
         if (value instanceof Number) {
-            amount = new IntStaticReplacer(ObjectUtil.toInt(value));
-            return true;
+            original.setAmount(ObjectUtil.toInt(value));
+            return false;
         }
         String string = ObjectUtil.toString(value);
         if (ReplacerUtil.contains(string)) {
-            this.amount = new IntDynamicReplacer(string);
+            this.amount = string;
+            return true;
         } else {
-            this.amount = new IntStaticReplacer(ObjectUtil.toInt(value));
+            original.setAmount(ObjectUtil.toInt(value));
+            return false;
         }
-        return true;
     }
 }

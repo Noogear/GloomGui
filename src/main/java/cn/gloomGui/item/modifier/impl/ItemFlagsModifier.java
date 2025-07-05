@@ -1,10 +1,12 @@
 package cn.gloomGui.item.modifier.impl;
 
+import cn.gloomGui.cache.ReplacerCache;
 import cn.gloomGui.item.modifier.ItemMetaModifier;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.ReplacerUtil;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -59,5 +61,15 @@ public class ItemFlagsModifier implements ItemMetaModifier {
         this.usePlaceholder = !dynamicSet.isEmpty();
         this.dynamicFlags = usePlaceholder ? dynamicSet : Collections.emptySet();
         return true;
+    }
+
+    @Override
+    public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @NotNull ReplacerCache replacerCache) {
+        return null;
+    }
+
+    @Override
+    public boolean loadFromObject(ItemStack original, Object value) {
+        return false;
     }
 }

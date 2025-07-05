@@ -12,13 +12,11 @@ public interface CacheStrategy<K, V> {
 
     V get(K key);
 
-    V getOrDefault(K key, V defaultValue);
-
-    V computeIfAbsent(K key, Function<K, V> loader);
+    V getAndUpdate(K key);
 
     void put(K key, V value);
 
-    boolean update();
+    CacheStrategy<K,V> update();
 
     void remove(K key);
 

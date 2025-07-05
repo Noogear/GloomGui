@@ -1,39 +1,37 @@
 package cn.gloomGui.item.modifier.impl;
 
+import cn.gloomGui.cache.ReplacerCache;
 import cn.gloomGui.item.modifier.ItemMetaModifier;
-import cn.gloomGui.object.stringReplacer.ReplacerStrategy;
-import cn.gloomGui.object.stringReplacer.impl.ComponentDynamicReplacer;
-import cn.gloomGui.object.stringReplacer.impl.ComponentStaticReplacer;
+import cn.gloomGui.util.AdventureUtil;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.ReplacerUtil;
-import net.kyori.adventure.text.Component;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class DisplayNameModifier implements ItemMetaModifier {
-    private ReplacerStrategy<Component> name;
+    private String name;
 
     @Override
-    public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @Nullable OfflinePlayer player) {
-        if (name != null) {
-            meta.displayName(name.get(player));
-        }
+    public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @NotNull ReplacerCache replacerCache) {
+        meta.displayName(AdventureUtil.deserialize(replacerCache.get(name)));
         return meta;
     }
 
     @Override
-    public boolean loadFromObject(Object value) {
+    public boolean loadFromObject(ItemStack original, Object value) {
         if (value == null) {
             return false;
         }
         String string = ObjectUtil.toString(value);
         if (ReplacerUtil.contains(string)) {
-            name = new ComponentDynamicReplacer(string);
+            this.name = string;
+            return true;
         } else {
-            name = new ComponentStaticReplacer(string);
+            original.editMeta(meta -> {
+                meta.displayName(AdventureUtil.deserialize(string));
+            });
+            return false;
         }
-        return true;
     }
 }

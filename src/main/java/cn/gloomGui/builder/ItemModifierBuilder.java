@@ -42,14 +42,14 @@ public class ItemModifierBuilder {
         HANDLER_REGISTRY.clear();
     }
 
-    public List<ItemModifier<ItemStack>> build(Map<String, Object> map) {
+    public List<ItemModifier<ItemStack>> build(ItemStack stack, Map<String, Object> map) {
         return map.entrySet().stream()
                 .map(entry -> {
                     String key = entry.getKey().toLowerCase(Locale.ENGLISH);
                     Supplier<ItemModifier<ItemStack>> supplier = HANDLER_REGISTRY.get(key);
                     if (supplier != null) {
                         ItemModifier<ItemStack> modifier = supplier.get();
-                        if (modifier.loadFromObject(entry.getValue())) {
+                        if (modifier.loadFromObject(stack, entry.getValue())) {
                             return modifier;
                         }
                     }
