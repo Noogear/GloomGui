@@ -25,7 +25,7 @@ public class ItemComponentModifier implements ItemModifier<ItemStack> {
     }
 
     @Override
-    public boolean loadFromObject(ItemStack original, Object value) {
+    public boolean initFromObject(ItemStack original, Object value) {
         if (value == null) {
             return false;
         }

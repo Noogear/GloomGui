@@ -1,5 +1,7 @@
 package cn.gloomGui.util;
 
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
@@ -38,6 +40,10 @@ public final class RegistryUtils {
         return stringList.stream()
                 .map(s -> fromString(registry, s))
                 .toList();
+    }
+
+    public static <T extends Keyed> @Nullable T fromString(RegistryKey<@NotNull T> registryKey, String string) {
+        return fromString(RegistryAccess.registryAccess().getRegistry(registryKey), string);
     }
 
 }

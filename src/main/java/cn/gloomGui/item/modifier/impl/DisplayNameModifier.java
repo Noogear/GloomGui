@@ -1,7 +1,6 @@
 package cn.gloomGui.item.modifier.impl;
 
 import cn.gloomGui.cache.ReplacerCache;
-import cn.gloomGui.item.modifier.ItemMetaModifier;
 import cn.gloomGui.util.AdventureUtil;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.ReplacerUtil;
@@ -19,7 +18,7 @@ public class DisplayNameModifier implements ItemMetaModifier {
     }
 
     @Override
-    public boolean loadFromObject(ItemStack original, Object value) {
+    public boolean initFromObject(ItemStack original, Object value) {
         if (value == null) {
             return false;
         }

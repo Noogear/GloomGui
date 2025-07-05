@@ -4,6 +4,7 @@ import cn.gloomGui.cache.ReplacerCache;
 import cn.gloomGui.item.modifier.ItemModifier;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.ReplacerUtil;
+import cn.gloomGui.util.StringUtil;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,12 +13,12 @@ public class AmountModifier implements ItemModifier<ItemStack> {
 
     @Override
     public @NotNull ItemStack modify(ItemStack original, ReplacerCache replacerCache) {
-        original.setAmount(Integer.parseInt(replacerCache.get(amount)));
+        StringUtil.parseInteger(replacerCache.get(amount)).ifPresent(original::setAmount);
         return original;
     }
 
     @Override
-    public boolean loadFromObject(ItemStack original, Object value) {
+    public boolean initFromObject(ItemStack original, Object value) {
         if (value == null) {
             return false;
         }
@@ -30,7 +31,7 @@ public class AmountModifier implements ItemModifier<ItemStack> {
             this.amount = string;
             return true;
         } else {
-            original.setAmount(ObjectUtil.toInt(value));
+            StringUtil.parseInteger(string).ifPresent(original::setAmount);
             return false;
         }
     }

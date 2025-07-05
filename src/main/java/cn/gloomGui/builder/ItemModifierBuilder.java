@@ -21,6 +21,7 @@ public class ItemModifierBuilder {
         register(AmountModifier::new, "amount");
         register(CustomModelDataModifier::new, "custom_model_data", "model_data", "custom_model");
         register(DisplayNameModifier::new, "custom_name", "name", "display_name");
+        register(EnchantmentModify::new, "enchantment", "enchantments", "enchant");
         register(HideTooltipModifier::new, "hide_tooltip");
         register(ItemComponentModifier::new, "item_component", "nbt", "component");
         register(ItemFlagsModifier::new, "item_flags", "flags", "item_flag", "flag");
@@ -49,7 +50,7 @@ public class ItemModifierBuilder {
                     Supplier<ItemModifier<ItemStack>> supplier = HANDLER_REGISTRY.get(key);
                     if (supplier != null) {
                         ItemModifier<ItemStack> modifier = supplier.get();
-                        if (modifier.loadFromObject(stack, entry.getValue())) {
+                        if (modifier.initFromObject(stack, entry.getValue())) {
                             return modifier;
                         }
                     }

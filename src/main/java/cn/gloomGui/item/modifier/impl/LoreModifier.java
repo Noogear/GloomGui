@@ -1,7 +1,6 @@
 package cn.gloomGui.item.modifier.impl;
 
 import cn.gloomGui.cache.ReplacerCache;
-import cn.gloomGui.item.modifier.ItemMetaModifier;
 import cn.gloomGui.object.stringReplacer.ReplacerStrategy;
 import cn.gloomGui.object.stringReplacer.impl.ComponentDynamicReplacer;
 import cn.gloomGui.object.stringReplacer.impl.ComponentStaticReplacer;
@@ -28,7 +27,7 @@ public class LoreModifier implements ItemMetaModifier {
     }
 
     @Override
-    public boolean loadFromObject(ItemStack original, Object value) {
+    public boolean initFromObject(ItemStack original, Object value) {
         if (value == null) {
             return false;
         }

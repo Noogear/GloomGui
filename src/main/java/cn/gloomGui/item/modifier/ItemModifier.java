@@ -8,7 +8,7 @@ public interface ItemModifier<T> {
 
     @NotNull T modify(T original, ReplacerCache replacerCache);
 
-    boolean loadFromObject(ItemStack original, Object value);
+    boolean initFromObject(ItemStack original, Object value);
 
 
 }
