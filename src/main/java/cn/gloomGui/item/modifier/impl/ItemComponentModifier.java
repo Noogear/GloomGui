@@ -3,7 +3,6 @@ package cn.gloomGui.item.modifier.impl;
 import cn.gloomGui.cache.ReplacerCache;
 import cn.gloomGui.item.modifier.ItemModifier;
 import cn.gloomGui.util.ObjectUtil;
-import cn.gloomGui.util.ReplacerUtil;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
@@ -19,7 +18,7 @@ public class ItemComponentModifier implements ItemModifier<ItemStack> {
     public @NotNull ItemStack modify(ItemStack original, ReplacerCache replacerCache) {
         String materialName = original.getType().getKey().toString();
         try {
-            return Bukkit.getItemFactory().createItemStack(materialName + replacerCache.get(nbtData));
+            return Bukkit.getItemFactory().createItemStack(materialName + nbtData);
         } catch (Throwable throwable) {
             return original;
         }
@@ -30,23 +29,11 @@ public class ItemComponentModifier implements ItemModifier<ItemStack> {
         if (value == null) {
             return false;
         }
-        String nbt;
         if (value instanceof Map<?, ?> map) {
-            nbt = GSON.toJson(map);
+            nbtData = GSON.toJson(map);
         } else {
-            nbt = ObjectUtil.toString(value);
+            nbtData = ObjectUtil.toString(value);
         }
-        if (ReplacerUtil.contains(nbtData)) {
-            nbtData = nbt;
-            return true;
-        } else {
-            String materialName = original.getType().getKey().toString();
-            try {
-                ItemStack newStack = Bukkit.getItemFactory().createItemStack(materialName + nbt);
-                original.setItemMeta(newStack.getItemMeta());
-            } catch (Exception ignored) {
-            }
-            return false;
-        }
+        return true;
     }
 }
