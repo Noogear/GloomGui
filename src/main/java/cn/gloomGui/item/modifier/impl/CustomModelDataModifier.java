@@ -33,8 +33,8 @@ public class CustomModelDataModifier implements ItemMetaModifier {
             this.customModelData = string;
             return true;
         } else {
-            original.editMeta(meta -> {
-                StringUtil.parseInteger(string).ifPresent(integer -> {
+            StringUtil.parseInteger(string).ifPresent(integer -> {
+                original.editMeta(meta -> {
                     meta.setCustomModelData(integer);
                 });
             });
