@@ -1,9 +1,7 @@
 package cn.gloomGui.item.modifier.impl;
 
 import cn.gloomGui.cache.ReplacerCache;
-import cn.gloomGui.object.stringReplacer.ReplacerStrategy;
-import cn.gloomGui.object.stringReplacer.impl.ComponentDynamicReplacer;
-import cn.gloomGui.object.stringReplacer.impl.ComponentStaticReplacer;
+import cn.gloomGui.util.AdventureUtil;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.ReplacerUtil;
 import net.kyori.adventure.text.Component;
@@ -57,6 +55,38 @@ public class LoreModifier implements ItemMetaModifier {
                 meta.lore(loreEntries.stream().map(loreEntry -> loreEntry.get(null)).toList());
             });
             return false;
+        }
+    }
+
+
+    @FunctionalInterface
+    private interface ReplacerStrategy<T> {
+        T get(ReplacerCache replacerCache);
+    }
+
+
+    private record ComponentDynamicReplacer(String string) implements ReplacerStrategy<Component> {
+
+        @Override
+        public Component get(ReplacerCache replacerCache) {
+            return AdventureUtil.deserialize(replacerCache.get(string));
+        }
+    }
+
+    private static class ComponentStaticReplacer implements ReplacerStrategy<Component> {
+        private final Component component;
+
+        public ComponentStaticReplacer(String string) {
+            this(AdventureUtil.deserialize(string));
+        }
+
+        public ComponentStaticReplacer(Component component) {
+            this.component = component;
+        }
+
+        @Override
+        public Component get(ReplacerCache replacerCache) {
+            return component;
         }
     }
 }

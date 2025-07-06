@@ -15,11 +15,11 @@ public class MaterialModifier implements ItemModifier<ItemStack> {
         String[] split = materialString.split(":", 2);
         Material material = getMaterial(split[0].trim());
         if (material != null) {
-            itemStack.setType(material);
+            ItemStack newStack = itemStack.withType(material);
             if (split.length > 1) {
-                itemStack.setDurability(Short.parseShort(split[1].trim()));
+                newStack.setDurability(Short.parseShort(split[1].trim()));
             }
-            return itemStack;
+            return newStack;
         }
         return itemStack;
     }
