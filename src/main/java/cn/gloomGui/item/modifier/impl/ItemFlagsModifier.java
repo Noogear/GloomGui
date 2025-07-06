@@ -51,6 +51,7 @@ public class ItemFlagsModifier implements ItemMetaModifier {
             original.editMeta(meta -> {
                 meta.addItemFlags(staticSet.toArray(new ItemFlag[0]));
             });
+            staticSet.clear();
         }
         if (dynamicSet.isEmpty()) {
             return false;

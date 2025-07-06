@@ -59,39 +59,31 @@ public class EnchantmentModify implements ItemMetaModifier {
         if (value == null) {
             return false;
         }
-        if (value instanceof List<?> list) {
-            Set<String> stringSet = new HashSet<>();
-            for (Object o : list) {
-                if (o instanceof String s) {
-                    if (ReplacerUtil.contains(s)) {
-                        stringSet.add(s);
-                    } else {
-                        EnchantmentEntry parsed = getParsed(s);
-                        if (parsed != null) {
-                            original.addEnchantment(parsed.enchantment, parsed.level);
-                        }
-                    }
-                }
+        List<String> stringList = ObjectUtil.toStringList(value);
+        if (stringList.isEmpty()) {
+            return false;
+        }
+        Set<String> dynamicSet = new HashSet<>();
+        for (String string : stringList) {
+            if (string == null || string.isEmpty()) {
+                continue;
             }
-            if (stringSet.isEmpty()) {
-                return false;
-            }
-            this.enchantments = stringSet;
-            return true;
-        } else {
-            String string = ObjectUtil.toString(value);
             if (ReplacerUtil.contains(string)) {
-                enchantments = new HashSet<>();
-                enchantments.add(string);
-                return true;
+                dynamicSet.add(string);
             } else {
                 EnchantmentEntry parsed = getParsed(string);
                 if (parsed != null) {
                     original.addEnchantment(parsed.enchantment, parsed.level);
                 }
-                return false;
             }
         }
+        if (dynamicSet.isEmpty()) {
+            return false;
+        } else {
+            this.enchantments = dynamicSet;
+            return true;
+        }
+
     }
 
     private static class EnchantmentEntry {
