@@ -1,8 +1,7 @@
-package cn.gloomGui.cache;
+package cn.gloomGui.Strategy;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 
 public interface CacheStrategy<K, V> {
 
@@ -16,7 +15,7 @@ public interface CacheStrategy<K, V> {
 
     void put(K key, V value);
 
-    CacheStrategy<K,V> update();
+    CacheStrategy<K, V> update();
 
     void remove(K key);
 

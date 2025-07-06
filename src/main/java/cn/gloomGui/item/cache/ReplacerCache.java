@@ -1,5 +1,6 @@
-package cn.gloomGui.cache;
+package cn.gloomGui.item.cache;
 
+import cn.gloomGui.Strategy.CacheStrategy;
 import cn.gloomGui.util.ReplacerUtil;
 import org.bukkit.OfflinePlayer;
 

@@ -1,6 +1,6 @@
 package cn.gloomGui.item.modifier;
 
-import cn.gloomGui.cache.ReplacerCache;
+import cn.gloomGui.item.cache.ReplacerCache;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
