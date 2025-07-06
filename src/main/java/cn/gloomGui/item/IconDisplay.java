@@ -1,33 +1,43 @@
 package cn.gloomGui.item;
 
-import org.bukkit.Material;
+import cn.gloomGui.cache.ReplacerCache;
+import cn.gloomGui.item.modifier.ItemModifier;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class IconDisplay implements Cloneable {
     private final ItemStack itemStack;
+    private final List<ItemModifier<ItemStack>> itemModifiers;
 
-    private IconDisplay(ItemStack itemStack) {
+    protected IconDisplay(ItemStack itemStack, List<ItemModifier<ItemStack>> itemModifiers) {
         this.itemStack = itemStack;
+        this.itemModifiers = itemModifiers;
+    }
+
+    public static IconDisplay of(ItemStack itemStack, List<ItemModifier<ItemStack>> itemModifiers) {
+        return new IconDisplay(itemStack, itemModifiers);
     }
 
     public static IconDisplay of(ItemStack itemStack) {
-        return new IconDisplay(itemStack);
-    }
-
-    public static IconDisplay of(Material material) {
-        return new IconDisplay(ItemStack.of(material));
-    }
-
-    public static IconDisplay of(Material material, int amount) {
-        return new IconDisplay(ItemStack.of(material, amount));
+        return new IconDisplay(itemStack, List.of());
     }
 
     public <M extends ItemMeta> IconDisplay modify(Class<M> metaClass, Consumer<? super M> consumer) {
         itemStack.editMeta(metaClass, consumer);
         return this;
+    }
+
+    public ItemStack item(ReplacerCache replacerCache) {
+        ItemStack item = itemStack.clone();
+        if (itemModifiers != null) {
+            for (ItemModifier<ItemStack> itemModifier : itemModifiers) {
+                itemModifier.modify(item, replacerCache);
+            }
+        }
+        return item;
     }
 
     @Override
