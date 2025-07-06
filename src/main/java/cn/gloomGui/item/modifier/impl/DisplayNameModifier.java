@@ -1,6 +1,7 @@
 package cn.gloomGui.item.modifier.impl;
 
 import cn.gloomGui.item.cache.ReplacerCache;
+import cn.gloomGui.item.modifier.ItemMetaModifier;
 import cn.gloomGui.util.AdventureUtil;
 import cn.gloomGui.util.ObjectUtil;
 import cn.gloomGui.util.ReplacerUtil;
