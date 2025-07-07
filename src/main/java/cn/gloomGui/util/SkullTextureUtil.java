@@ -12,11 +12,10 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -80,14 +79,15 @@ public class SkullTextureUtil {
 
     @NotNull
     private static PlayerProfile profileFromUrl(String value) {
-        try {
-            URL url = URI.create(value).toURL();
-            PlayerProfile newProfile = Bukkit.createProfile(EMPTY_ID, "");
-            newProfile.getTextures().setSkin(url);
-            return newProfile;
-        } catch (MalformedURLException e) {
-            return EMPTY;
-        }
+        Optional<URL> url = StringUtil.parseURL(value);
+        return url.map(SkullTextureUtil::profileFromUrl).orElse(EMPTY);
+    }
+
+    @NotNull
+    private static PlayerProfile profileFromUrl(URL value) {
+        PlayerProfile newProfile = Bukkit.createProfile(EMPTY_ID, "");
+        newProfile.getTextures().setSkin(value);
+        return newProfile;
     }
 
     @NotNull

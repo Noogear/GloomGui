@@ -3,6 +3,8 @@ package cn.gloomGui.util;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URL;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -36,5 +38,12 @@ public class StringUtil {
         }
     }
 
+    public static Optional<URL> parseURL(@NotNull String input) {
+        try {
+            return Optional.of(URI.create(input).toURL());
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
 
 }
