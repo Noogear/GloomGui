@@ -14,7 +14,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -44,14 +43,14 @@ public class SkullTextureUtil {
             if (length < 32) {
                 return profileFromName(value);
             } else if (length == 32) {
-                return profileFromUUID(UUID.fromString(new StringBuilder(value)
+                return profileFromUUID(new StringBuilder(value)
                         .insert(20, '-')
                         .insert(16, '-')
                         .insert(12, '-')
                         .insert(8, '-')
-                        .toString()));
+                        .toString());
             } else if (length == 36) {
-                return profileFromUUID(UUID.fromString(value));
+                return profileFromUUID(value);
             } else if (length == 64) {
                 return profileFromUrl(TEXTURE_URL + value);
             } else if (value.startsWith("http")) {
@@ -71,7 +70,13 @@ public class SkullTextureUtil {
 
     @NotNull
     private static PlayerProfile profileFromBase64(String value) {
-        String decoded = new String(Base64.getDecoder().decode(value), StandardCharsets.UTF_8);
+        Optional<byte[]> base64 = StringUtil.getBase64(value);
+        return base64.map(SkullTextureUtil::profileFromBase64).orElse(EMPTY);
+    }
+
+    @NotNull
+    private static PlayerProfile profileFromBase64(byte[] base64) {
+        String decoded = new String(base64, StandardCharsets.UTF_8);
         JsonObject json = GSON.fromJson(decoded, JsonObject.class);
         String url = json.getAsJsonObject("textures").getAsJsonObject("SKIN").get("url").getAsString();
         return profileFromUrl(url);
@@ -84,10 +89,16 @@ public class SkullTextureUtil {
     }
 
     @NotNull
-    private static PlayerProfile profileFromUrl(URL value) {
+    private static PlayerProfile profileFromUrl(URL url) {
         PlayerProfile newProfile = Bukkit.createProfile(EMPTY_ID, "");
-        newProfile.getTextures().setSkin(value);
+        newProfile.getTextures().setSkin(url);
         return newProfile;
+    }
+
+    @NotNull
+    private static PlayerProfile profileFromUUID(String value) {
+        Optional<UUID> uuid = StringUtil.parseUUID(value);
+        return uuid.map(SkullTextureUtil::profileFromUUID).orElse(EMPTY);
     }
 
     @NotNull
