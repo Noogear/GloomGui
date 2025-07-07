@@ -70,7 +70,7 @@ public class SkullTextureUtil {
 
     @NotNull
     private static PlayerProfile profileFromBase64(String value) {
-        Optional<byte[]> base64 = StringUtil.getBase64(value);
+        Optional<byte[]> base64 = StringUtil.parseBase64(value);
         return base64.map(SkullTextureUtil::profileFromBase64).orElse(EMPTY);
     }
 

@@ -2,10 +2,13 @@ package cn.gloomGui.util;
 
 import io.papermc.paper.threadedregions.scheduler.AsyncScheduler;
 import io.papermc.paper.threadedregions.scheduler.GlobalRegionScheduler;
+import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
+import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 public class SchedulerUtil {
     public static SchedulerUtil instance;
@@ -62,6 +65,11 @@ public class SchedulerUtil {
          */
         void runTaskAsync(Runnable task);
 
+        void runOnEntity(Entity entity, Runnable task, Runnable retriedTask);
+
+        void runOnEntityLater(Entity entity, Runnable task, Runnable retriedTask, long delayTicks);
+
+
     }
 
     private static class CommonScheduler implements IScheduler {
@@ -105,6 +113,16 @@ public class SchedulerUtil {
         @Override
         public void runTaskAsync(Runnable task) {
             scheduler.runTaskAsynchronously(plugin, task);
+        }
+
+        @Override
+        public void runOnEntity(Entity entity, Runnable task, Runnable retriedTask) {
+            runTask(task);
+        }
+
+        @Override
+        public void runOnEntityLater(Entity entity, Runnable task, Runnable retriedTask, long delayTicks) {
+            runTaskLater(task, delayTicks);
         }
     }
 
@@ -151,5 +169,24 @@ public class SchedulerUtil {
         public void runTaskAsync(Runnable task) {
             asyncScheduler.runNow(plugin, (plugin) -> task.run());
         }
+
+        @Override
+        public void runOnEntity(Entity entity, Runnable task, Runnable retriedTask) {
+            entity.getScheduler().run(plugin, runnableToConsumer(task), retriedTask);
+        }
+
+        @Override
+        public void runOnEntityLater(Entity entity, Runnable task, Runnable retriedTask, long delayTicks) {
+            entity.getScheduler().runDelayed(plugin, runnableToConsumer(task), retriedTask, toSafeTick(delayTicks));
+        }
+
+        private long toSafeTick(long originTick) {
+            return originTick > 0 ? originTick : 1;
+        }
+
+        private Consumer<ScheduledTask> runnableToConsumer(Runnable runnable) {
+            return (final ScheduledTask task) -> runnable.run();
+        }
+
     }
 }

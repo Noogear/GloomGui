@@ -30,19 +30,12 @@ public class ActionGroup implements Action {
         context.start();
     }
 
-    private static class RunContext {
-        final Player player;
-        final Queue<Action> queue;
-
-        RunContext(Player player, Queue<Action> queue) {
-            this.player = player;
-            this.queue = queue;
-        }
+    private record RunContext(Player player, Queue<Action> queue) {
 
         void start() {
             runNext();
         }
-
+    
         private void runNext() {
             if (queue.isEmpty()) {
                 return;

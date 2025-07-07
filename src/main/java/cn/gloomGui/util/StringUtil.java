@@ -56,7 +56,7 @@ public class StringUtil {
         }
     }
 
-    public static Optional<byte[]> getBase64(@NotNull String input) {
+    public static Optional<byte[]> parseBase64(@NotNull String input) {
         try {
             return Optional.of(Base64.getDecoder().decode(input));
         } catch (Exception e) {

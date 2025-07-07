@@ -1,4 +1,4 @@
-package cn.gloomGui.Strategy;
+package cn.gloomGui.strategy;
 
 import java.util.Optional;
 import java.util.Set;
