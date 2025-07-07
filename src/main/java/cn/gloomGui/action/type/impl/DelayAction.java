@@ -1,6 +1,6 @@
-package cn.gloomGui.action.Action.impl;
+package cn.gloomGui.action.type.impl;
 
-import cn.gloomGui.action.Action.NormalAction;
+import cn.gloomGui.action.type.NormalAction;
 import cn.gloomGui.util.ReplacerUtil;
 import cn.gloomGui.util.SchedulerUtil;
 import cn.gloomGui.util.StringUtil;

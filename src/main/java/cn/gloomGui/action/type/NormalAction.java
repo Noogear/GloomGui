@@ -1,4 +1,4 @@
-package cn.gloomGui.action.Action;
+package cn.gloomGui.action.type;
 
 public interface NormalAction extends Action {
 
