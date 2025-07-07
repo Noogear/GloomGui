@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class CommandAction implements NormalAction {
-    Function<Player, String> command;
+    private Function<Player, String> command;
 
     @Override
     public void run(Player player, Consumer<Boolean> callback) {
@@ -17,11 +17,15 @@ public class CommandAction implements NormalAction {
     }
 
     @Override
-    public void initFromString(String string) {
+    public boolean initFromString(String string) {
+        if (string.isEmpty()) {
+            return false;
+        }
         if (ReplacerUtil.contains(string)) {
             command = (player) -> ReplacerUtil.apply(string, player);
         } else {
             command = (player) -> string;
         }
+        return true;
     }
 }

@@ -8,12 +8,14 @@ import cn.gloomGui.util.StringUtil;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+
 public class AmountModifier implements ItemModifier<ItemStack> {
     private String amount;
 
     @Override
     public @NotNull ItemStack modify(ItemStack original, ReplacerCache replacerCache) {
-        StringUtil.parseInteger(replacerCache.get(amount)).ifPresent(original::setAmount);
+        StringUtil.parseNumber(replacerCache.get(amount)).map(BigDecimal::intValue).ifPresent(original::setAmount);
         return original;
     }
 
@@ -31,7 +33,7 @@ public class AmountModifier implements ItemModifier<ItemStack> {
             this.amount = string;
             return true;
         } else {
-            StringUtil.parseInteger(string).ifPresent(original::setAmount);
+            StringUtil.parseNumber(string).map(BigDecimal::intValue).ifPresent(original::setAmount);
             return false;
         }
     }

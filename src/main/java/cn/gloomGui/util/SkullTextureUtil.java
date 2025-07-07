@@ -113,7 +113,7 @@ public class SkullTextureUtil {
 
     @NotNull
     private static PlayerProfile profileFromName(String value) {
-        Player player = Bukkit.getPlayer(value);
+        Player player = Bukkit.getPlayerExact(value);
         if (player != null) {
             return player.getPlayerProfile();
         } else {

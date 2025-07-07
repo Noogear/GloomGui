@@ -35,7 +35,7 @@ public class ActionGroup implements Action {
         void start() {
             runNext();
         }
-    
+
         private void runNext() {
             if (queue.isEmpty()) {
                 return;

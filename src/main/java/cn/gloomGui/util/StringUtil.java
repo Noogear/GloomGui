@@ -24,14 +24,6 @@ public class StringUtil {
         }
     }
 
-    public static Optional<Integer> parseInteger(@NotNull String input) {
-        try {
-            return Optional.of(Integer.parseInt(input.trim()));
-        } catch (NumberFormatException e) {
-            return Optional.empty();
-        }
-    }
-
     public static Optional<Boolean> parseBoolean(@NotNull String input) {
         try {
             return Optional.of(Boolean.parseBoolean(input.trim()));

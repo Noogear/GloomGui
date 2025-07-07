@@ -9,12 +9,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+
 public class CustomModelDataModifier implements ItemMetaModifier {
     private String customModelData;
 
     @Override
     public @NotNull ItemMeta modifyMeta(@NotNull ItemMeta meta, @NotNull ReplacerCache replacerCache) {
-        StringUtil.parseInteger(replacerCache.get(customModelData)).ifPresent(meta::setCustomModelData);
+        StringUtil.parseNumber(replacerCache.get(customModelData)).map(BigDecimal::intValue).ifPresent(meta::setCustomModelData);
         return meta;
     }
 
@@ -34,7 +36,7 @@ public class CustomModelDataModifier implements ItemMetaModifier {
             this.customModelData = string;
             return true;
         } else {
-            StringUtil.parseInteger(string).ifPresent(integer -> {
+            StringUtil.parseNumber(string).map(BigDecimal::intValue).ifPresent(integer -> {
                 original.editMeta(meta -> {
                     meta.setCustomModelData(integer);
                 });
