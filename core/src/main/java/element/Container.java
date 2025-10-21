@@ -1,11 +1,21 @@
 package element;
 
+import org.bukkit.inventory.Inventory;
+
+import java.util.Map;
+import java.util.Optional;
+
 public interface Container<I> {
 
-    int[] getSlots();
+    int[] slots();
 
-    int getSize();
+    int size();
 
-    I render(int slot);
+    boolean contains(int slot);
 
+    void render(Inventory inventory);
+
+    Optional<I> getViewItem(int slot);
+
+    Map<Integer, I> getAllViewItems();
 }

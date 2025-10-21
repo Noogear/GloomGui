@@ -1,31 +1,53 @@
 package element.elem;
 
-import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
-public abstract class PlaceElem<I, E extends PlaceElem<I, E>> implements DynamicElem<E> {
-    Map<Integer, I> items;
+public interface PlaceElem<I, E extends PlaceElem<I, E>> extends DynamicElem<E> {
 
-    public boolean canAccept(I itemToAccept) {
-        for (int slot : items.keySet()) {
-            if (canAccept(itemToAccept, slot)) {
+    E placeItem(I itemToPlace, int slot);
+
+    Optional<I> removeItem(int slot);
+
+    boolean canAccept(I itemToAccept, int slot);
+
+    int getCapacity();
+
+    Set<Integer> getOccupiedSlots();
+
+    default boolean addItem(I item) {
+        for (int i = 0; i < getCapacity(); i++) {
+            if (!isSlotOccupied(i) && canAccept(item, i)) {
+                placeItem(item, i);
                 return true;
             }
         }
         return false;
     }
 
-    abstract boolean canAccept(I itemToAccept, int slot);
+    default E clear(int slot) {
+        removeItem(slot);
+        return self();
+    }
 
-    public E placeItem(I itemToPlace, int slot) {
-        if (canAccept(itemToPlace, slot)) {
-            items.put(slot, itemToPlace);
-            return self();
+    default E clearAll() {
+        for (int slot : Set.copyOf(getOccupiedSlots())) {
+            removeItem(slot);
         }
         return self();
     }
 
-    abstract boolean isEmpty();
+    default boolean isSlotOccupied(int slot) {
+        return getOccupiedSlots().contains(slot);
+    }
 
-    abstract E clear();
+    default boolean isEmpty() {
+        return getOccupiedSlots().isEmpty();
+    }
+
+    default boolean isFull() {
+        if (getCapacity() == 0) return false;
+        return getOccupiedSlots().size() >= getCapacity();
+    }
 
 }
