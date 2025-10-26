@@ -10,9 +10,9 @@ public interface Box<I> extends Container<I> {
 
     @Override
     default int[] slots() {
-        int size = size();
-        int firstSlot = firstSlot();
-        int[] array = new int[size];
+        final int size = size();
+        final int firstSlot = firstSlot();
+        final int[] array = new int[size];
         for (int i = 0; i < size; i++) {
             array[i] = firstSlot + i;
         }

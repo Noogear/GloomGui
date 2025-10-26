@@ -3,7 +3,7 @@ package element.elem;
 import java.util.Optional;
 import java.util.Set;
 
-public interface PlaceElem<I, E extends PlaceElem<I, E>> extends DynamicElem<E> {
+public interface PlaceElem<I, E extends PlaceElem<I, E>> extends Elem<E> {
 
     E placeItem(I itemToPlace, int slot);
 
@@ -23,18 +23,6 @@ public interface PlaceElem<I, E extends PlaceElem<I, E>> extends DynamicElem<E> 
             }
         }
         return false;
-    }
-
-    default E clear(int slot) {
-        removeItem(slot);
-        return self();
-    }
-
-    default E clearAll() {
-        for (int slot : Set.copyOf(getOccupiedSlots())) {
-            removeItem(slot);
-        }
-        return self();
     }
 
     default boolean isSlotOccupied(int slot) {

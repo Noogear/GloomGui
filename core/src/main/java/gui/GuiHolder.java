@@ -3,6 +3,10 @@ package gui;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.InventoryView;
 import org.jetbrains.annotations.NotNull;
@@ -27,5 +31,15 @@ public interface GuiHolder extends InventoryHolder {
             openView.setTitle(LegacyComponentSerializer.legacySection().serialize(title));
         }
     }
+
+    void handleClick(InventoryClickEvent event);
+
+    void handleDrag(InventoryDragEvent event);
+
+    void handleOpen(InventoryOpenEvent event);
+
+    void handleClose(InventoryCloseEvent event);
+
+    Component title();
 
 }

@@ -1,7 +1,7 @@
 package element.elem;
 
 
-public interface PageElem<E extends PageElem<E>> extends DynamicElem<E> {
+public interface PageElem<E extends PageElem<E>> extends Elem<E> {
 
     int currentPage();
 

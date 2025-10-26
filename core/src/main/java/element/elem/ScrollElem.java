@@ -1,7 +1,7 @@
 package element.elem;
 
 
-public interface ScrollElem<E extends ScrollElem<E>> extends DynamicElem<E> {
+public interface ScrollElem<E extends ScrollElem<E>> extends Elem<E> {
 
     /**
      * @return 当前的水平滚动位置 (X坐标)
@@ -59,11 +59,11 @@ public interface ScrollElem<E extends ScrollElem<E>> extends DynamicElem<E> {
      * @return 实例自身
      */
     default E scrollTo(int x, int y) {
-        int clampedX = clamp(x, 0, getMaxScrollX());
-        int clampedY = clamp(y, 0, getMaxScrollY());
+        final int clampedX = clamp(x, 0, getMaxScrollX());
+        final int clampedY = clamp(y, 0, getMaxScrollY());
         setX(clampedX);
         setY(clampedY);
-        return refresh();
+        return self();
     }
 
     /**
@@ -120,8 +120,8 @@ public interface ScrollElem<E extends ScrollElem<E>> extends DynamicElem<E> {
      * @return 实例自身
      */
     default E scrollToPercent(double percentX, double percentY) {
-        int targetX = (int) (getMaxScrollX() * percentX);
-        int targetY = (int) (getMaxScrollY() * percentY);
+        final int targetX = (int) (getMaxScrollX() * percentX);
+        final int targetY = (int) (getMaxScrollY() * percentY);
         return scrollTo(targetX, targetY);
     }
 
