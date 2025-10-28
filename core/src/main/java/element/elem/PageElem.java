@@ -1,7 +1,7 @@
 package element.elem;
 
 
-public interface PageElem<E extends PageElem<E>> extends Elem<E> {
+public interface PageElem<I, E extends PageElem<I, E>> extends Elem<I, E> {
 
     int currentPage();
 
@@ -38,7 +38,7 @@ public interface PageElem<E extends PageElem<E>> extends Elem<E> {
      */
     default E nextPageCircular() {
         if (maxPages() == 0) return self();
-        int next = currentPage() >= maxPages() ? 1 : currentPage() + 1;
+        final int next = currentPage() >= maxPages() ? 1 : currentPage() + 1;
         return setPage(next);
     }
 
@@ -49,7 +49,7 @@ public interface PageElem<E extends PageElem<E>> extends Elem<E> {
      */
     default E previousPageCircular() {
         if (maxPages() == 0) return self();
-        int prev = currentPage() <= 1 ? maxPages() : currentPage() - 1;
+        final int prev = currentPage() <= 1 ? maxPages() : currentPage() - 1;
         return setPage(prev);
     }
 
@@ -76,11 +76,11 @@ public interface PageElem<E extends PageElem<E>> extends Elem<E> {
      * @return 实例自身
      */
     private E setPageSafely(int desiredPage) {
-        int totalPages = maxPages();
+        final int totalPages = maxPages();
         if (totalPages <= 0) {
             return self();
         }
-        int targetPage = Math.max(1, Math.min(desiredPage, totalPages));
+        final int targetPage = Math.max(1, Math.min(desiredPage, totalPages));
         return setPage(targetPage);
     }
 }

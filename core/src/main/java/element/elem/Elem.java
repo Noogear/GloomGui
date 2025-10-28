@@ -3,12 +3,16 @@ package element.elem;
 
 import java.util.Collection;
 
-public interface Elem<E extends Elem<E>> {
+public interface Elem<I, E extends Elem<I, E>> {
 
     E self();
 
-    E updateItem(int slot);
+    E updateSlot(int slot);
 
-    E updateItems(Collection<Integer> slots);
+    E updateSlots(Collection<Integer> slots);
+
+    int indexOfSlot(int slot);
+
+    int slotOfIndex(int index);
 
 }
