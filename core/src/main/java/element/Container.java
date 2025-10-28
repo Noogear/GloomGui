@@ -11,11 +11,12 @@ public interface Container<I> {
 
     int size();
 
-    boolean contains(int slot);
+    boolean contains(int slot) ;
 
     void render(Inventory inventory);
 
-    Optional<I> getViewItem(int slot);
+    Optional<I> getItemBySlot(int slot);
 
-    Map<Integer, I> getAllViewItems();
+    Map<Integer, I> getSlotItemMap();
+
 }

@@ -1,4 +1,4 @@
-package action;
+package holder;
 
 public interface ClickHolder {
 
